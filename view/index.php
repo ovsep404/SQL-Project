@@ -2,6 +2,7 @@
 
 include "../debug/debug.php";
 include "../model/requests.php";
+session_start();
 
 
 ?>
@@ -28,8 +29,16 @@ include "../model/requests.php";
     <label for="editeur">Éditeur:</label>
     <input type="text" name="searchEditeur" id="editeur">
 
-    <label for="disponible">Disponible:</label>
-    <input type="checkbox" name="searchDisponible" id="disponible" value="1">
+<!--    <label for="disponible">Disponible:</label>-->
+<!--    <input type="checkbox" name="searchDisponible" id="disponible" value="1">-->
+
+    <label for="disponible"></label><select id="disponible" name="searchDisponible">
+        <option value="disponible">Disponible</option>
+        <option value="nondisponible">Non disponible</option>
+        <option value="all">all</option>
+
+    </select
+           >
 
     <input type="submit" name="searchButton" value="Rechercher">
 </form>
