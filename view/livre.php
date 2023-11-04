@@ -1,15 +1,54 @@
 <?php
 global $searchResults, $pdo;
 include "../debug/debug.php";
-include "../model/requests.php";
+include "../requests/LivreRequest.php";
 session_start();
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../css/livre.css">
+    <title>Document</title>
+</head>
+<body>
+
+<p>Livre:</p>
+
+<form action="#" method="post">
+
+    <div class="test">
+        <input type="text" name="searchTitle" placeholder="Titre" id="titre">
+
+        <input type="text" name="searchAuteur" placeholder="Auteur" id="auteur">
+
+        <input type="text" name="searchEditeur" placeholder="Éditeur" id="editeur">
+
+        <label for="disponible"></label><select id="disponible" name="searchDisponible">
+            <option value="disponible">Disponible</option>
+            <option value="nondisponible">Non disponible</option>
+            <option value="all">all</option>
+
+        </select>
+
+        <input type="submit" name="searchButton" value="Rechercher">
+    </div>
+</form>
+
+</body>
+</html>
 
 
-$perPage = 20; // Number of books per page
+<?php
+$perPage = 20;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;
 
-$searchErr = ''; // Initialize an error message variable
+$searchErr = '';
 $nbRes = 0;
 
 if (isset($_POST['searchButton'])) {
@@ -33,24 +72,17 @@ if (isset($_POST['searchButton'])) {
 $searchResults = searchBooks($_SESSION['Title'], $_SESSION['Auteur'], $_SESSION['Editeur'], $_SESSION['Disponible'], $page, $perPage, $pdo, 20, true);
 $nbRes = count(searchBooks($_SESSION['Title'], $_SESSION['Auteur'], $_SESSION['Editeur'], $_SESSION['Disponible'], $page, $perPage, $pdo));
 
-// Calculate the total number of pages
+if (empty($searchResults)) {
+    $searchErr = "No results found. Please refine your search criteria.";
+}
+
+
 $sql = "SELECT COUNT(*) FROM livre";
 $totalBooks = $pdo->query($sql)->fetchColumn();
 $totalPages = $nbRes / $perPage;
 
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie-edge">
-    <link rel="stylesheet" type="text/css" href="../css/livre.css">
-    <title>Document</title>
-</head>
-<body>
 
 <?php
 if (!empty($searchErr)) {
@@ -71,7 +103,6 @@ if (!empty($searchResults)) {
     echo '</thead>';
     echo '<tbody>';
 
-    // Loop through user data and populate the table
     foreach ($searchResults as $result) {
         echo '<tr>';
         echo '<td>' . $result['id'] . '</td>';
@@ -86,18 +117,16 @@ if (!empty($searchResults)) {
     echo '</tbody>';
     echo '</table>';
 
-    // Display pagination links
-    echo '<div>';
+    echo '<div class ="paginationContainer">';
     for ($i = 0; $i <= $totalPages; $i++) {
-        echo '<a href="livre.php?page=' . $i + 1 . '">' . $i . '</a> ';
+        echo '<a class="pagination" href="livre.php?page=' . ($i + 1) . '">' . $i . '</a> ';
     }
+    echo '</div>';
     echo '</div>';
 
 }
 ?>
-</div>
-</body>
-</html>
+
 
 
 

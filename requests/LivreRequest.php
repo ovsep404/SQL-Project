@@ -2,7 +2,7 @@
 include "db_connect.php";
 include "../debug/debug.php";
 
-
+// La requête de ecran de recherche de livres
 function searchBooks($searchTitle, $searchAuteur, $searchEditeur, $searchDisponible, $page, $perPage, $pdo, $limit = false, $offsetEnable = false)
 {
     $offset = ($page - 1) * $perPage;
@@ -47,7 +47,6 @@ function searchBooks($searchTitle, $searchAuteur, $searchEditeur, $searchDisponi
     $searchParamAuteur = '%' . $searchAuteur . '%';
     $searchParamEditeur = '%' . $searchEditeur . '%';
 
-    var_dump($searchParamEditeur);
 
     $stmt->bindParam(':searchTitle', $searchParamTitle, PDO::PARAM_STR);
     $stmt->bindParam(':searchAuteur', $searchParamAuteur, PDO::PARAM_STR);
