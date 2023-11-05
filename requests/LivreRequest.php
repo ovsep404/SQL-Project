@@ -17,6 +17,7 @@ function searchBooks($searchTitle, $searchAuteur, $searchEditeur, $searchDisponi
     AND auteur.nom LIKE :searchAuteur
     AND editeur.nom LIKE :searchEditeur)";
 
+
     if ($searchDisponible === 'disponible') {
         $sql .= " AND (SELECT COUNT(*) FROM emprunt WHERE emprunt.id_livre = livre.id AND date_retour IS NULL) = 0";
     } elseif ($searchDisponible === 'nondisponible') {

@@ -12,11 +12,13 @@ body {
     background-color: #f9f9f9;
 
 }
+
 .header {
     text-align: center;
     font-size: 24px;
 
 }
+
 .info {
     margin-top: 20px;
     font-size: 16px;
@@ -27,6 +29,7 @@ body {
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
+
 .info p {
     margin: 5px 0;
 }
@@ -50,7 +53,7 @@ thead {
     color: #fff;
 }
 
-td ,.textarea {
+td, .textarea {
     background-color: #f2f2f2;
 }
 
@@ -67,7 +70,8 @@ td ,.textarea {
 .delete-button {
     background-color: #ff0000;
 }
-.update_button{
+
+.update_button {
     background-color: orange;
 }
 
@@ -75,7 +79,7 @@ td ,.textarea {
     background-color: #0056b3;
 }
 
-.actions{
+.actions {
     display: flex;
     flex-direction: row;
 }
@@ -87,21 +91,18 @@ td ,.textarea {
     width: 4%;
 }
 
-.textarea{
+.textarea {
     width: 90%;
     border: none;
 
 }
 
-
-
-
 .pagination {
     text-align: center;
 }
 
-/* Style for pagination links */
-.pagination  {
+
+.pagination {
     display: inline-block;
     padding: 5px 10px;
     margin: 1px;
@@ -119,11 +120,11 @@ td ,.textarea {
     background-color: #2574a9;
 }
 
-.paginationContainer{
+.paginationContainer {
     margin-top: 9px;
 }
 
-/* Style for the form container */
+
 form {
     display: flex;
     align-items: center;
@@ -132,14 +133,14 @@ form {
 
 }
 
-/* Style for form labels */
+
 label {
     flex: 1;
     margin-right: 10px;
     font-weight: bold;
 }
 
-/* Style for form input fields */
+
 input[type="text"],
 select {
     flex: 2;
@@ -151,7 +152,7 @@ select {
 
 }
 
-/* Style for the submit button */
+
 input[type="submit"] {
     flex: 1;
     padding: 10px 20px;
@@ -159,11 +160,64 @@ input[type="submit"] {
     color: white;
     border: none;
     border-radius: 4px;
-
     cursor: pointer;
 }
 
-/* Hover state for the submit button */
+
 input[type="submit"]:hover {
     background-color: #45a9eb;
+}
+
+#successNotification {
+    display: none;
+    background-color: #4CAF50;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.error-notification {
+    display: none;
+    background-color: #ff5733;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.close {
+    float: right;
+    cursor: pointer;
 }

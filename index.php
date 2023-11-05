@@ -16,11 +16,12 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
+<br>
 
 <p>Gestion de biobliothèque:</p>
 
-<a href="./view/livre.php">Ecran de recherche de livres</a>
+<a href="./view/livre.php">Ecran de recherche de livres</a> <br>
+<a href="./view/abonne.php">Ecran de recherche d'abonné</a>
 
 
 </body>
