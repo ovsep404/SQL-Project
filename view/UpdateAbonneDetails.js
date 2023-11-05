@@ -6,41 +6,93 @@ const closeModal = document.getElementById("closeModal");
 const voirFicheLinks = document.querySelectorAll(".voirFicheLink");
 voirFicheLinks.forEach((link) => {
     link.addEventListener("click", function () {
-
         modal.style.display = "block";
-
         const userId = this.getAttribute("data-user-id");
+
         fetch(`../requests/AbonneRequest.php?user_id=${userId}`)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
+
+                // Convertir la chaîne JSON en un tableau JavaScript
+                data.livres_empruntes = JSON.parse(data.livres_empruntes);
+                data.suggested_books = JSON.parse(data.suggested_books);
+
+
                 const userDetails = document.getElementById("userDetails");
                 userDetails.innerHTML = `
-
-                <p>ID: ${data.id}</p>
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" value="${data.prenom}">
-                <br>
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" value="${data.nom}">
-                <br>
-                <label for="ville">Ville:</label>
-                <input type="text" id="ville" value="${data.ville}">
-                <br>
-                <label for="date_naissance">Date de naissance:</label>
-                <input type="text" id="date_naissance" value="${data.date_naissance}">
-                <br>
-                <label for="date_fin_abo">Date fin abonnement:</label>
-                <input type="text" id="date_fin_abo" value="${data.date_fin_abo}">
-                <br>
-                <button id="saveUser" data-user-id="${data.id}">Save</button>
-            `;
+                <div class="containerDetails">
+                    <p>ID: ${data.id}</p>
+                    <label for="prenom">Prénom:</label>
+                    <input type="text" id="prenom" name="prenom" value="${data.prenom}">
+                    <br>
+                    <label for="nom">Nom:</label>
+                    <input type="text" id="nom" name="nom" value="${data.nom}">
+                    <br>
+                    <label for="ville">Ville:</label>
+                    <input type="text" id="ville" name="ville" value="${data.ville}">
+                    <br>
+                    <label for="date_naissance">Date de naissance:</label>
+                    <input type="text" id="date_naissance" name="date_naissance" value="${data.date_naissance}">
+                    <br>
+                    <label for="date_fin_abo">Date fin abonnement:</label>
+                    <input type="text" id="date_fin_abo" name="date_fin_abo" value="${data.date_fin_abo}">
+                    <br>
+                     <button class ="edit-button" id="saveUser" data-user-id="${data.id}">Save</button>
+                     </div>
+                   <h2>Liste des livres empruntés:</h2>
+        <table>
+            <div class="borrowed-books">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Date d'emprunt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.livres_empruntes && data.livres_empruntes.length > 0
+                    ? data.livres_empruntes.map((livre) => `
+                                <tr>
+                                    <td>${livre.titre}</td>
+                                    <td>${livre.date_emprunt}</td>
+                                </tr>
+                            `).join('')
+                    : '<tr><td colspan="2">Aucun livre emprunté</td></tr>'
+                }
+                    </tbody>
+                </table>
+            </div>
+            <h2>Liste de suggestion de 5 livres :</h2>
+            <div class="suggested-books">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Catégorie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.suggested_books && data.suggested_books.length > 0
+                    ? data.suggested_books.map((book) => `
+                                <tr>
+                                    <td>${book.titre}</td>
+                                    <td>${book.categorie}</td>
+                                </tr>
+                            `).join('')
+                    : '<tr><td colspan="2">Aucune suggestion de livre</td></tr>'
+                }
+                    </tbody>
+                </table>
+            </div>
+                   
+                `;
             })
             .catch((error) => {
                 console.error("Error fetching user details: " + error);
             });
     });
 });
-
 closeModal.addEventListener("click", function () {
     modal.style.display = "none";
     location.reload();

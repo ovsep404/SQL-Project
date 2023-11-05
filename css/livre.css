@@ -59,7 +59,7 @@ td, .textarea {
 
 
 .edit-button, .delete-button, .update_button {
-    background-color: #007bff;
+    background-color: #333;
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -76,7 +76,7 @@ td, .textarea {
 }
 
 .edit-button:hover, .delete-button:hover, .update_button:hover {
-    background-color: #0056b3;
+    background-color: #2574a9;
 }
 
 .actions {
@@ -206,13 +206,16 @@ input[type="submit"]:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+
+    overflow-y: scroll;
+
 }
 
 .modal-content {
     background-color: #fff;
-    margin: 10% auto;
+    margin: 1% auto;
     padding: 20px;
-    width: 60%;
+    width: 95%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -220,4 +223,10 @@ input[type="submit"]:hover {
 .close {
     float: right;
     cursor: pointer;
+}
+
+.containerDetails{
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
 }
