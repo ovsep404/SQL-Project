@@ -25,19 +25,28 @@ voirFicheLinks.forEach((link) => {
                     <p>ID: ${data.id}</p>
                     <label for="prenom">Prénom:</label>
                     <input type="text" id="prenom" name="prenom" value="${data.prenom}">
-                    <br>
+                   
                     <label for="nom">Nom:</label>
                     <input type="text" id="nom" name="nom" value="${data.nom}">
-                    <br>
+                    
+                    <label for="date_naissance">Date de naissance:</label>
+                    <input type="date" id="date_naissance" name="date_naissance" value="${data.date_naissance}">
+                    
+                    <label for="adresse">Adresse:</label>
+                    <input type="text" id="adresse" name="adresse" value="${data.adresse}">
+                    
+                    <label for="code_postal">Code postal:</label>
+                    <input type="text" id="code_postal" name="code_postal" value="${data.code_postal}">
+                  
                     <label for="ville">Ville:</label>
                     <input type="text" id="ville" name="ville" value="${data.ville}">
-                    <br>
-                    <label for="date_naissance">Date de naissance:</label>
-                    <input type="text" id="date_naissance" name="date_naissance" value="${data.date_naissance}">
-                    <br>
+                    
+                     <label for="date_inscription">Date inscription:</label>
+                    <input type="date" id="date_inscription" name="date_inscription" value="${data.date_inscription}">
+                    
                     <label for="date_fin_abo">Date fin abonnement:</label>
-                    <input type="text" id="date_fin_abo" name="date_fin_abo" value="${data.date_fin_abo}">
-                    <br>
+                    <input type="date" id="date_fin_abo" name="date_fin_abo" value="${data.date_fin_abo}">
+                   
                      <button class ="edit-button" id="saveUser" data-user-id="${data.id}">Save</button>
                      </div>
                    <h2>Liste des livres empruntés:</h2>
@@ -110,17 +119,24 @@ document.addEventListener("click", function (event) {
         const userId = event.target.getAttribute("data-user-id");
         const prenom = document.getElementById("prenom").value;
         const nom = document.getElementById("nom").value;
-        const ville = document.getElementById("ville").value;
         const date_naissance = document.getElementById("date_naissance").value;
+        const adresse = document.getElementById("adresse").value;
+        const code_postal = document.getElementById("code_postal").value;
+        const ville = document.getElementById("ville").value;
+        const date_inscription = document.getElementById("date_inscription").value;
+        console.log(date_inscription);
         const date_fin_abo = document.getElementById("date_fin_abo").value;
 
         const updatedUserData = {
             id: userId,
             prenom: prenom,
             nom: nom,
-            ville: ville,
             date_naissance: date_naissance,
-            date_fin_abo: date_fin_abo,
+            adresse:adresse,
+            code_postal:code_postal,
+            ville: ville,
+            date_inscription:date_inscription,
+            date_fin_abo: date_fin_abo
         };
         console.log(updatedUserData)
         fetch(`../requests/UpdateAbonneDetails.php`, {
