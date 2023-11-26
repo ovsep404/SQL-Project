@@ -120,8 +120,14 @@ td, .textarea {
     background-color: #2574a9;
 }
 
+.pagination.active {
+    background-color: #45a9eb;
+}
+
 .paginationContainer {
     margin-top: 9px;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -130,6 +136,7 @@ form {
     align-items: center;
     flex-direction: column;
     margin-bottom: 18px;
+    margin-top: 18px;
 
 }
 
@@ -225,8 +232,25 @@ input[type="submit"]:hover {
     cursor: pointer;
 }
 
-.containerDetails{
+.containerDetails {
     display: flex;
     align-items: baseline;
     flex-direction: column;
+}
+
+
+.non {
+    background-color: red;
+}
+
+.oui {
+    background-color: green;
+}
+
+.abonne-green {
+    background-color: green;
+}
+
+.abonne-red {
+    background-color: red;
 }

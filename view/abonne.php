@@ -2,22 +2,11 @@
 global $searchResults, $pdo;
 include "../debug/debug.php";
 include "../requests/AbonneRequest.php";
+$pageTitle = 'Gestion de bibliothèque abonné:';
+include "header.php";
+
 session_start();
 ?>
-
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="../css/livre.css">
-    <title>Document</title>
-</head>
-<body>
-
-<p>Abonné:</p>
 
 <form action="#" method="post">
 
@@ -51,7 +40,6 @@ session_start();
 </div>
 
 
-
 <?php
 $perPage = 20;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -78,8 +66,28 @@ if (isset($_POST['searchButton'])) {
     }
 }
 
-$searchResults = searchAbonnes($_SESSION['Nom'], $_SESSION['Prenom'], $_SESSION['Ville'], $_SESSION['abonneOUexpire'], $page, $perPage, $pdo, 20, true);
-$nbRes = count(searchAbonnes($_SESSION['Nom'], $_SESSION['Prenom'], $_SESSION['Ville'], $_SESSION['abonneOUexpire'], $page, $perPage, $pdo));
+$searchResults = searchAbonnes(
+    $_SESSION['Nom'] ?? '',
+    $_SESSION['Prenom'] ?? '',
+    $_SESSION['Ville'] ?? '',
+    $_SESSION['abonneOUexpire'] ?? '',
+    $page,
+    $perPage,
+    $pdo,
+    20,
+    true
+);
+
+$nbRes = count(searchAbonnes(
+    $_SESSION['Nom'] ?? '',
+    $_SESSION['Prenom'] ?? '',
+    $_SESSION['Ville'] ?? '',
+    $_SESSION['abonneOUexpire'] ?? '',
+    $page,
+    $perPage,
+    $pdo
+));
+
 
 if (empty($searchResults)) {
     $searchErr = "No results found. Please refine your search criteria.";
@@ -93,59 +101,80 @@ $totalPages = $nbRes / $perPage;
 ?>
 
 
-<?php
-if (!empty($searchErr)) {
-    echo "<p>$searchErr</p>";
-}
+<?php if (!empty($searchErr)): ?>
+    <p><?= $searchErr ?></p>
+<?php endif; ?>
 
-if (!empty($searchResults)) {
-    echo '<table>';
-    echo '<thead>';
-    echo '<tr>';
-    echo '<th>ID</th>';
-    echo '<th>Nom</th>';
-    echo '<th>Prenom</th>';
-    echo '<th>Ville</th>';
-    echo '<th>Date de naissance</th>';
-    echo '<th>Date fin abonnement</th>';
-    echo '<th>Abonné ou expiré</th>';
-    echo '<th>Voir fiche</th>';
+<?php if (!empty($searchResults)): ?>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Ville</th>
+            <th>Date de naissance</th>
+            <th>Date fin abonnement</th>
+            <th>Abonné ou expiré</th>
+            <th>Voir fiche</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($searchResults as $result): ?>
+            <?php
+            $abonnementStatus = $result['date_fin_abo'] >= date("Y-m-d H:i:s") ? 'Abonné' : 'Expire';
+            ?>
+            <tr>
+                <td><?= $result['id'] ?></td>
+                <td><?= $result['nom'] ?></td>
+                <td><?= $result['prenom'] ?></td>
+                <td><?= $result['ville'] ?></td>
+                <td><?= $result['date_naissance'] ?></td>
+                <td><?= $result['date_fin_abo'] ?></td>
+                <td class="<?= $abonnementStatus === 'Abonné' ? 'abonne-green' : 'abonne-red' ?>"><?= $abonnementStatus ?></td>
+                <td><a href="#" class="voirFicheLink" data-user-id="<?= $result['id'] ?>">Voir fiche</a></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
 
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
+    <div class="paginationContainer">
+        <?php
+        // Assuming you want to display 10 buttons at a time
+        $buttonsToShow = 10;
+        $halfButtonsToShow = floor($buttonsToShow / 2);
 
-    foreach ($searchResults as $result) {
-        echo '<tr>';
-        echo '<td>' . $result['id'] . '</td>';
-        echo '<td>' . $result['nom'] . '</td>';
-        echo '<td>' . $result['prenom'] . '</td>';
-        echo '<td>' . $result['ville'] . '</td>';
-        echo '<td>' . $result['date_naissance'] . '</td>';
-        echo '<td>' . $result['date_fin_abo'] . '</td>';
-        echo '<td>' . ($result['date_fin_abo'] >= date("Y-m-d H:i:s") ? 'Abonné' : 'Expire') . '</td>';
-        echo '<td><a href="#" class="voirFicheLink" data-user-id="' . $result['id'] . '">Voir fiche</a></td>';
+        // Calculate the starting and ending points for the buttons
+        $start = max(1, (int)$page - $buttonsToShow + 2);
+        $end = min($start + $buttonsToShow - 1, (int)$totalPages);
 
-        echo '</tr>';
-    }
+        // If there are not enough buttons to fill $buttonsToShow, adjust the starting point
+        $start = max(1, $end - $buttonsToShow + 1);
 
-    echo '</tbody>';
-    echo '</table>';
+        // Add a "Previous" button
+        if ($page > 1) {
+            echo '<a class="pagination" href="abonne.php?page=' . ((int)$page - 1) . '">Previous</a>';
+        }
 
-    echo '<div class ="paginationContainer">';
-    for ($i = 0; $i <= $totalPages; $i++) {
-        echo '<a class="pagination" href="abonne.php?page=' . ($i + 1) . '">' . $i . '</a> ';
-    }
-    echo '</div>';
-    echo '</div>';
+        // Display the numbered buttons
+        for ($i = $start; $i <= $end; $i++) {
+            $activeClass = ($i === (int)$page) ? 'active' : '';
+            echo '<a class="pagination ' . $activeClass . '" href="abonne.php?page=' . $i . '">' . $i . '</a>';
+        }
 
-}
-?>
+        // Add a "Next" button
+        if ($page < $totalPages) {
+            echo '<a class="pagination" href="abonne.php?page=' . ((int)$page + 1) . '">Next</a>';
+        }
+        ?>
+    </div>
+<?php endif; ?>
 
 
 <script src="UpdateAbonneDetails.js"></script>
-</body>
-</html>
+<?php
+include "footer.php";
+?>
 
 
 

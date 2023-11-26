@@ -1,7 +1,8 @@
 <?php
-
 include "../debug/debug.php";
 include "../requests/LivreRequest.php";
+$pageTitle = 'Gestion de bibliothèque ';
+include './view/header.php';
 session_start();
 
 
@@ -24,5 +25,6 @@ session_start();
 <a href="./view/abonne.php">Ecran de recherche d'abonné</a>
 
 
-</body>
-</html>
+<?php
+include "./view/footer.php";
+?>

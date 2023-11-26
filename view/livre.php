@@ -2,22 +2,11 @@
 global $searchResults, $pdo;
 include "../debug/debug.php";
 include "../requests/LivreRequest.php";
+$pageTitle = 'Gestion de bibliothèque livre:';
+include 'header.php';
 session_start();
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="../css/livre.css">
-    <title>Document</title>
-</head>
-<body>
-
-<p>Livre:</p>
 
 <form action="#" method="post">
 
@@ -38,9 +27,6 @@ session_start();
         <input type="submit" name="searchButton" value="Rechercher">
     </div>
 </form>
-
-</body>
-</html>
 
 
 <?php
@@ -69,8 +55,28 @@ if (isset($_POST['searchButton'])) {
     }
 }
 
-$searchResults = searchBooks($_SESSION['Title'], $_SESSION['Auteur'], $_SESSION['Editeur'], $_SESSION['Disponible'], $page, $perPage, $pdo, 20, true);
-$nbRes = count(searchBooks($_SESSION['Title'], $_SESSION['Auteur'], $_SESSION['Editeur'], $_SESSION['Disponible'], $page, $perPage, $pdo));
+$searchResults = searchBooks(
+    $_SESSION['Title'] ?? '',
+    $_SESSION['Auteur'] ?? '',
+    $_SESSION['Editeur'] ?? '',
+    $_SESSION['Disponible'] ?? '',
+    $page,
+    $perPage,
+    $pdo,
+    20,
+    true
+);
+
+$nbRes = count(searchBooks(
+    $_SESSION['Title'] ?? '',
+    $_SESSION['Auteur'] ?? '',
+    $_SESSION['Editeur'] ?? '',
+    $_SESSION['Disponible'] ?? '',
+    $page,
+    $perPage,
+    $pdo
+));
+
 
 if (empty($searchResults)) {
     $searchErr = "No results found. Please refine your search criteria.";
@@ -84,47 +90,71 @@ $totalPages = $nbRes / $perPage;
 ?>
 
 
+<?php if (!empty($searchErr)): ?>
+    <p><?= $searchErr ?></p>
+<?php endif; ?>
+
+<?php if (!empty($searchResults)): ?>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Éditeur</th>
+            <th>Date du dernier emprunt</th>
+            <th>Disponibilité</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($searchResults as $result): ?>
+            <tr>
+                <td><?= $result['id'] ?></td>
+                <td><?= $result['titre'] ?></td>
+                <td><?= $result['auteur'] ?></td>
+                <td><?= $result['editeur'] ?></td>
+                <td><?= $result['Date_du_dernier_emprunt'] ?></td>
+                <td class="<?= $result['emprunt'] !== 0 ? 'non' : 'oui' ?>"><?= $result['emprunt'] !== 0 ? 'non' : 'oui' ?></td>
+
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+
+    <div class="paginationContainer">
+        <?php
+        // Assuming you want to display 10 buttons at a time
+        $buttonsToShow = 10;
+        $halfButtonsToShow = floor($buttonsToShow / 2);
+
+        // Calculate the starting and ending points for the buttons
+        $start = max(1, (int)$page - $buttonsToShow + 2);
+        $end = min($start + $buttonsToShow - 1, (int)$totalPages);
+
+        // If there are not enough buttons to fill $buttonsToShow, adjust the starting point
+        $start = max(1, $end - $buttonsToShow + 1);
+
+        // Add a "Previous" button
+        if ($page > 1) {
+            echo '<a class="pagination" href="livre.php?page=' . ((int)$page - 1) . '">Previous</a>';
+        }
+
+        // Display the numbered buttons
+        for ($i = $start; $i <= $end; $i++) {
+            $activeClass = ($i === (int)$page) ? 'active' : '';
+            echo '<a class="pagination ' . $activeClass . '" href="livre.php?page=' . $i . '">' . $i . '</a>';
+        }
+
+        // Add a "Next" button
+        if ($page < $totalPages) {
+            echo '<a class="pagination" href="livre.php?page=' . ((int)$page + 1) . '">Next</a>';
+        }
+        ?>
+    </div>
+<?php endif; ?>
 <?php
-if (!empty($searchErr)) {
-    echo "<p>$searchErr</p>";
-}
-
-if (!empty($searchResults)) {
-    echo '<table>';
-    echo '<thead>';
-    echo '<tr>';
-    echo '<th>ID</th>';
-    echo '<th>Titre</th>';
-    echo '<th>Auteur</th>';
-    echo '<th>Éditeur</th>';
-    echo '<th>Date du dernier emprunt</th>';
-    echo '<th>Disponibilité</th>';
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
-
-    foreach ($searchResults as $result) {
-        echo '<tr>';
-        echo '<td>' . $result['id'] . '</td>';
-        echo '<td>' . $result['titre'] . '</td>';
-        echo '<td>' . $result['auteur'] . '</td>';
-        echo '<td>' . $result['editeur'] . '</td>';
-        echo '<td>' . $result['Date_du_dernier_emprunt'] . '</td>';
-        echo '<td>' . ($result['emprunt'] !== 0 ? 'non' : 'oui') . '</td>';
-        echo '</tr>';
-    }
-
-    echo '</tbody>';
-    echo '</table>';
-
-    echo '<div class ="paginationContainer">';
-    for ($i = 0; $i <= $totalPages; $i++) {
-        echo '<a class="pagination" href="livre.php?page=' . ($i + 1) . '">' . $i . '</a> ';
-    }
-    echo '</div>';
-    echo '</div>';
-
-}
+include "footer.php";
 ?>
 
 

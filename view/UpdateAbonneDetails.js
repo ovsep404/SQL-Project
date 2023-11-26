@@ -132,10 +132,10 @@ document.addEventListener("click", function (event) {
             prenom: prenom,
             nom: nom,
             date_naissance: date_naissance,
-            adresse:adresse,
-            code_postal:code_postal,
+            adresse: adresse,
+            code_postal: code_postal,
             ville: ville,
-            date_inscription:date_inscription,
+            date_inscription: date_inscription,
             date_fin_abo: date_fin_abo
         };
         console.log(updatedUserData)
