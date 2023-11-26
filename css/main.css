@@ -241,16 +241,33 @@ input[type="submit"]:hover {
 
 .non {
     background-color: red;
+    color: white;
 }
 
 .oui {
     background-color: green;
+    color: white;
 }
 
 .abonne-green {
     background-color: green;
+    color: white;
 }
 
 .abonne-red {
     background-color: red;
+    color: white;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+main p {
+    margin-bottom: 15px;
 }

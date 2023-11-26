@@ -2,7 +2,7 @@
 global $searchResults, $pdo;
 include "../debug/debug.php";
 include "../requests/LivreRequest.php";
-$pageTitle = 'Gestion de bibliothèque livre:';
+$pageTitle = 'Gestion de bibliothèque livre';
 include 'header.php';
 session_start();
 ?>

@@ -6,16 +6,33 @@ include "../debug/debug.php";
 function searchBooks($searchTitle, $searchAuteur, $searchEditeur, $searchDisponible, $page, $perPage, $pdo, $limit = false, $offsetEnable = false)
 {
     $offset = ($page - 1) * $perPage;
-    $sql = "SELECT livre.id, livre.titre, auteur.nom AS auteur, editeur.nom AS editeur, MAX(emprunt.date_retour) AS Date_du_dernier_emprunt, (
-        SELECT COUNT(*) FROM emprunt WHERE emprunt.id_livre = livre.id AND date_retour IS NULL
-    ) AS emprunt
-    FROM livre
-    INNER JOIN auteur ON livre.id_auteur = auteur.id
-    INNER JOIN editeur ON livre.id_editeur = editeur.id
-    LEFT JOIN emprunt ON livre.id = emprunt.id_livre
-    WHERE (livre.titre LIKE :searchTitle
-    AND auteur.nom LIKE :searchAuteur
-    AND editeur.nom LIKE :searchEditeur)";
+    $sql = "SELECT
+                livre.id,
+                livre.titre,
+                auteur.nom AS auteur,
+                editeur.nom AS editeur,
+                MAX(emprunt.date_retour) AS Date_du_dernier_emprunt,
+                (
+                SELECT
+                    COUNT(*)
+                FROM
+                    emprunt
+                WHERE
+                    emprunt.id_livre = livre.id
+                    AND date_retour IS NULL
+                            ) AS emprunt
+            FROM
+                livre
+            INNER JOIN auteur ON
+                livre.id_auteur = auteur.id
+            INNER JOIN editeur ON
+                livre.id_editeur = editeur.id
+            LEFT JOIN emprunt ON
+                livre.id = emprunt.id_livre
+            WHERE
+                (livre.titre LIKE :searchTitle
+                    AND auteur.nom LIKE :searchAuteur
+                    AND editeur.nom LIKE :searchEditeur)";
 
 
     if ($searchDisponible === 'disponible') {

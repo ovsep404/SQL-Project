@@ -11,9 +11,19 @@ function updateUserDetails($pdo)
         $data = json_decode(file_get_contents('php://input'));
 
 
-        $sql = "UPDATE abonne 
-                SET prenom = :prenom, nom = :nom, adresse =:adresse, code_postal =:code_postal, ville = :ville, date_inscription = :date_inscription, date_naissance = :date_naissance, date_fin_abo = :date_fin_abo 
-                WHERE id = :user_id";
+        $sql = "UPDATE
+                    abonne
+                SET
+                    prenom = :prenom,
+                    nom = :nom,
+                    adresse =:adresse,
+                    code_postal =:code_postal,
+                    ville = :ville,
+                    date_inscription = :date_inscription,
+                    date_naissance = :date_naissance,
+                    date_fin_abo = :date_fin_abo
+                WHERE
+                    id = :user_id";
 
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':prenom', $data->prenom, PDO::PARAM_STR);

@@ -3,16 +3,25 @@ global $pdo;
 include "db_connect.php";
 include "../debug/debug.php";
 
-// La requête de ecran de recherche de livres
+// La requête de ecran de recherche de abonnes
 function searchAbonnes($searchNom, $searchPrenom, $searchVille, $SearchabonneOUexpire, $page, $perPage, $pdo, $limit = false, $offsetEnable = false)
 {
     $offset = ($page - 1) * $perPage;
 
-    $sql = "SELECT abonne.id, abonne.prenom, abonne.nom, abonne.date_naissance, abonne.ville, abonne.date_inscription, abonne.date_fin_abo
-            FROM abonne
-            WHERE (abonne.prenom LIKE :searchPrenom)
-            AND (abonne.nom LIKE :searchNom)
-            AND (abonne.ville LIKE :searchVille)";
+    $sql = "SELECT
+                abonne.id,
+                abonne.prenom,
+                abonne.nom,
+                abonne.date_naissance,
+                abonne.ville,
+                abonne.date_inscription,
+                abonne.date_fin_abo
+            FROM
+                abonne
+            WHERE
+                (abonne.prenom LIKE :searchPrenom)
+                AND (abonne.nom LIKE :searchNom)
+                AND (abonne.ville LIKE :searchVille)";
 
     if ($SearchabonneOUexpire === 'abonne') {
         $sql .= " AND (date_fin_abo >= NOW())"; // Check if the subscription is active
