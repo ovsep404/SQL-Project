@@ -15,7 +15,7 @@ session_start();
     <link rel="stylesheet" type="text/css" href="./css/footer.css">
     <title>Gestion de bibliothèque</title>
 </head>
-<body>
+<body id="indexBody">
 
 <header>
     <h2><?php echo $pageTitle; ?></h2>
@@ -25,16 +25,13 @@ session_start();
     <a href="index.php">Accueil</a>
     <a href="./view/livre.php">Ecran de recherche de livres</a>
     <a href="./view/abonne.php">Ecran de recherche d'abonné</a>
-    <a href="connexion.php">Connexion</a>
+    <a href="./view/connexion.php">Connexion</a>
 </nav>
 <main>
     <p>Bienvenue dans l'application de gestion de bibliothèque!</p>
     <p>Cette application vous permet de rechercher des livres, des abonnés, et gérer vos informations.</p>
     <p>Explorez les fonctionnalités à partir des liens ci-dessus dans le header.</p>
 </main>
-<footer>
-    <p>&copy; <?php echo date("Y"); ?> Gestion de bibliothèque</p>
-</footer>
 
 </body>
 </html>

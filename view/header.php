@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../css/header.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/footer.css">
+    <link rel="stylesheet" type="text/css" href="../css/connexion.css">
     <title>Gestion de bibliothèque</title>
 </head>
 <body>
