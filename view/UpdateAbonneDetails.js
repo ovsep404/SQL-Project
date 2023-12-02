@@ -23,6 +23,8 @@ voirFicheLinks.forEach((link) => {
                 userDetails.innerHTML = `
                 <div class="containerDetails">
                     <p>ID: ${data.id}</p>
+                    <div class="form-columns">
+                        <div class="form-column">
                     <label for="prenom">Prénom:</label>
                     <input type="text" id="prenom" name="prenom" value="${data.prenom}">
                    
@@ -34,7 +36,8 @@ voirFicheLinks.forEach((link) => {
                     
                     <label for="adresse">Adresse:</label>
                     <input type="text" id="adresse" name="adresse" value="${data.adresse}">
-                    
+                     </div>
+                     <div class="form-column">
                     <label for="code_postal">Code postal:</label>
                     <input type="text" id="code_postal" name="code_postal" value="${data.code_postal}">
                   
@@ -46,8 +49,11 @@ voirFicheLinks.forEach((link) => {
                     
                     <label for="date_fin_abo">Date fin abonnement:</label>
                     <input type="date" id="date_fin_abo" name="date_fin_abo" value="${data.date_fin_abo}">
-                   
-                     <button class ="edit-button" id="saveUser" data-user-id="${data.id}">Save</button>
+                       </div>
+                    </div>
+                    <div class="btnContainer"></div>
+                     <button class ="edit-button" id="saveUser" data-user-id="${data.id}">Modifier</button>
+                     </div>
                      </div>
                    <h2>Liste des livres empruntés:</h2>
         <table>

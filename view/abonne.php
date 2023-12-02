@@ -17,11 +17,33 @@ session_start();
 
         <input type="text" name="searchVille" placeholder="Ville">
 
-        <label for="abonneOUexpire"></label><select id="abonneOUexpire" name="SearchabonneOUexpire">
-            <option value="abonne">Abonné</option>
-            <option value="expire">Expiré</option>
-            <option value="all">all</option>
+        <label for="abonneOUexpire"></label>
+        <select id="abonneOUexpire" name="SearchabonneOUexpire">
+            <option value="all" <?php echo ($_SESSION['searchFilter'] ?? '') === 'all' ? 'selected' : ''; ?>>Tout
+            </option>
+            <option value="abonne" <?php echo ($_SESSION['searchFilter'] ?? '') === 'abonne' ? 'selected' : ''; ?>>
+                Abonné
+            </option>
+            <option value="expire" <?php echo ($_SESSION['searchFilter'] ?? '') === 'expire' ? 'selected' : ''; ?>>
+                Expiré
+            </option>
         </select>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Enregistrez le changement de sélection dans le stockage local
+                document.getElementById('abonneOUexpire').addEventListener('change', function () {
+                    var selectedValue = this.value;
+                    localStorage.setItem('searchFilter', selectedValue);
+                });
+
+                // Récupérez la valeur du stockage local et définissez-la comme valeur par défaut
+                var storedFilter = localStorage.getItem('searchFilter');
+                if (storedFilter !== null) {
+                    document.getElementById('abonneOUexpire').value = storedFilter;
+                }
+            });
+        </script>
 
         <input type="submit" name="searchButton" value="Rechercher">
     </div>
@@ -140,34 +162,56 @@ $totalPages = $nbRes / $perPage;
 
     <div class="paginationContainer">
         <?php
+        // Check if the "Show All" button is clicked
+        $showAll = isset($_GET['showAll']) && $_GET['showAll'] == 1;
+
+        // Toggle between "Show All" and "Hide All" buttons
+        $toggleButtonText = $showAll ? 'Hide All' : 'Show All';
+        $toggleAction = $showAll ? '0' : '1';
+
+        // Determine the class based on the showAll state
+        $buttonClass = $showAll ? 'hide-all' : 'show-all';
+
+        // Display the "Show All" or "Hide All" button with the determined class
+        echo '<a class="pagination ' . $buttonClass . '" href="abonne.php?showAll=' . $toggleAction . '">' . $toggleButtonText . '</a>';
+
         // Assuming you want to display 10 buttons at a time
         $buttonsToShow = 10;
-        $halfButtonsToShow = floor($buttonsToShow / 2);
-
-        // Calculate the starting and ending points for the buttons
-        $start = max(1, (int)$page - $buttonsToShow + 2);
-        $end = min($start + $buttonsToShow - 1, (int)$totalPages);
-
-        // If there are not enough buttons to fill $buttonsToShow, adjust the starting point
-        $start = max(1, $end - $buttonsToShow + 1);
-
-        // Add a "Previous" button
-        if ($page > 1) {
-            echo '<a class="pagination" href="abonne.php?page=' . ((int)$page - 1) . '">Previous</a>';
-        }
 
         // Display the numbered buttons
-        for ($i = $start; $i <= $end; $i++) {
-            $activeClass = ($i === (int)$page) ? 'active' : '';
-            echo '<a class="pagination ' . $activeClass . '" href="abonne.php?page=' . $i . '">' . $i . '</a>';
-        }
+        if (!$showAll) {
+            // Calculate the starting and ending points for the buttons
+            $start = max(1, (int)$page - $buttonsToShow + 2);
+            $end = min($start + $buttonsToShow - 1, (int)$totalPages);
 
-        // Add a "Next" button
-        if ($page < $totalPages) {
-            echo '<a class="pagination" href="abonne.php?page=' . ((int)$page + 1) . '">Next</a>';
+            // If there are not enough buttons to fill $buttonsToShow, adjust the starting point
+            $start = max(1, $end - $buttonsToShow + 1);
+
+            // Add a "Previous" button
+            if ($page > 1) {
+                echo '<a class="pagination" href="abonne.php?page=' . ((int)$page - 1) . '">Previous</a>';
+            }
+
+            // Display the numbered buttons
+            for ($i = $start; $i <= $end; $i++) {
+                $activeClass = ($i === (int)$page) ? 'active' : '';
+                echo '<a class="pagination ' . $activeClass . '" href="abonne.php?page=' . $i . '">' . $i . '</a>';
+            }
+
+            // Add a "Next" button
+            if ($page < $totalPages) {
+                echo '<a class="pagination" href="abonne.php?page=' . ((int)$page + 1) . '">Next</a>';
+            }
+        } else {
+            // Display all pages without pagination
+            for ($i = 1; $i <= $totalPages; $i++) {
+                echo '<a class="pagination" href="abonne.php?page=' . $i . '">' . $i . '</a>';
+            }
         }
         ?>
+
     </div>
+
 <?php endif; ?>
 
 
