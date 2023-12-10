@@ -5,17 +5,21 @@ include "../requests/AbonneRequest.php";
 $pageTitle = 'Gestion de bibliothèque abonné';
 include "header.php";
 
+
 session_start();
 ?>
 
 <form action="#" method="post">
 
     <div class="test">
-        <input type="text" name="searchNom" placeholder="Nom">
+        <input type="text" name="searchNom" id="searchNom" value="<?php echo $_SESSION['searchNom'] ?? ''; ?>"
+               placeholder="Nom">
 
-        <input type="text" name="searchPrenom" placeholder="Prénom">
+        <input type="text" name="searchPrenom" id="searchPrenom" value="<?php echo $_SESSION['searchPrenom'] ?? ''; ?>"
+               placeholder="Prénom">
 
-        <input type="text" name="searchVille" placeholder="Ville">
+        <input type="text" name="searchVille" id="searchVille" value="<?php echo $_SESSION['searchVille'] ?? ''; ?>"
+               placeholder="Ville">
 
         <label for="abonneOUexpire"></label>
         <select id="abonneOUexpire" name="SearchabonneOUexpire">
@@ -29,23 +33,8 @@ session_start();
             </option>
         </select>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Enregistrez le changement de sélection dans le stockage local
-                document.getElementById('abonneOUexpire').addEventListener('change', function () {
-                    var selectedValue = this.value;
-                    localStorage.setItem('searchFilter', selectedValue);
-                });
-
-                // Récupérez la valeur du stockage local et définissez-la comme valeur par défaut
-                var storedFilter = localStorage.getItem('searchFilter');
-                if (storedFilter !== null) {
-                    document.getElementById('abonneOUexpire').value = storedFilter;
-                }
-            });
-        </script>
-
         <input type="submit" name="searchButton" value="Rechercher">
+        <button id="clearStorage" class="clearStorageBtn" name="clearStorage">Effacer la recherche</button>
     </div>
 </form>
 
@@ -216,6 +205,7 @@ $totalPages = $nbRes / $perPage;
 
 
 <script src="UpdateAbonneDetails.js"></script>
+<script src="../js/SearchAbonneStorage.js"></script>
 <?php
 include "footer.php";
 ?>

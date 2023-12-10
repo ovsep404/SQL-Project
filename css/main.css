@@ -162,7 +162,7 @@ select {
 }
 
 
-input[type="submit"] {
+input[type="submit"],.clearStorageBtn {
     flex: 1;
     padding: 10px 20px;
     background-color: #613016;

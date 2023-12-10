@@ -11,11 +11,14 @@ session_start();
 <form action="#" method="post">
 
     <div class="test">
-        <input type="text" name="searchTitle" placeholder="Titre" id="titre">
+        <input type="text" name="searchTitle" value="<?php echo $_SESSION['searchTitle'] ?? ''; ?>" placeholder="Titre"
+               id="searchTitle">
 
-        <input type="text" name="searchAuteur" placeholder="Auteur" id="auteur">
+        <input type="text" name="searchAuteur" value="<?php echo $_SESSION['searchAuteur'] ?? ''; ?>"
+               placeholder="Auteur" id="auteur">
 
-        <input type="text" name="searchEditeur" placeholder="Éditeur" id="editeur">
+        <input type="text" name="searchEditeur" value="<?php echo $_SESSION['searchEditeur'] ?? ''; ?>"
+               placeholder="Éditeur" id="editeur">
 
         <label for="disponible"></label>
         <select id="disponible" name="searchDisponible">
@@ -46,6 +49,7 @@ session_start();
         </script>
 
         <input type="submit" name="searchButton" value="Rechercher">
+        <button id="clearStorage" class="clearStorageBtn" name="clearStorage">Effacer la recherche</button>
     </div>
 </form>
 
@@ -195,6 +199,7 @@ $totalPages = $nbRes / $perPage;
     </div>
 
 <?php endif; ?>
+<script src="../js/SearchLivreStorage.js"></script>
 <?php
 include "footer.php";
 ?>
