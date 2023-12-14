@@ -4,9 +4,8 @@ include "../debug/debug.php";
 include "../requests/AbonneRequest.php";
 $pageTitle = 'Gestion de bibliothèque abonné';
 include "header.php";
-
-
-session_start();
+include "../rights/rights.php";
+/*session_start();*/
 ?>
 
 <form action="#" method="post">

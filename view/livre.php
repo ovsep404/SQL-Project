@@ -4,7 +4,7 @@ include "../debug/debug.php";
 include "../requests/LivreRequest.php";
 $pageTitle = 'Gestion de bibliothèque livre';
 include 'header.php';
-session_start();
+/*session_start();*/
 ?>
 
 

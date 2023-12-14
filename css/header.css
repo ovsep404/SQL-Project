@@ -28,3 +28,8 @@ nav a {
 nav a:hover {
     background-color: #452414;
 }
+
+.test {
+    float: right; /* Float the test link to the right */
+    padding: 0;
+}

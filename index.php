@@ -46,9 +46,21 @@ session_start();
             echo '<a href="#" class="voirFicheLinkUser"  data-user-id="' . $_SESSION['user_id'] . '">Voir fiche</a>';
         }
     } else {
-        "";
+        echo '';
     } ?>
     <a href="./view/connexion.php">Connexion</a>
+
+    <?php
+    if (isset($_SESSION['user_type'])) {
+        if ($_SESSION['user_type'] === 'gestionnaire') {
+            echo '<a class="test" href="">  &#128100 À tant que gestionnaire </a>';
+        } elseif ($_SESSION['user_type'] === 'abonne') {
+            echo '<a class="test" href=""> &#128100 À tant qu\'abonné </a>';
+        }
+    } else {
+        echo '<a class="test" href=""> &#128100 À tant que visiteur</a>';
+    }
+    ?>
 </nav>
 <main>
     <p>Bienvenue dans l'application de gestion de bibliothèque!</p>
