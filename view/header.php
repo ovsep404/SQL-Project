@@ -39,12 +39,12 @@
     $userId = $_SESSION['user_id'] ?? '';
     if ($userType === 'gestionnaire') {
         echo '<a href="abonne.php">Ecran de recherche d\'abonné</a>';
-        echo '<a class="test" href="">  &#128100 À tant que gestionnaire </a>';
+        echo '<a class="test" href="">  &#128100 En tant que gestionnaire </a>';
     } elseif ($userType === 'abonne') {
         echo '<a href="#" class="voirFicheLinkUser"  data-user-id="' . $userId . '">Voir fiche</a>';
-        echo '<a class="test" href=""> &#128100 À tant qu\'abonné </a>';
+        echo '<a class="test" href=""> &#128100 En tant qu\'abonné </a>';
     } else {
-        echo '<a class="test" href=""> &#128100 À tant que visiteur</a>';
+        echo '<a class="test" href=""> &#128100 En tant que visiteur</a>';
     }
     ?>
     <a href="connexion.php">Connexion</a>
