@@ -3,7 +3,6 @@ global $pdo;
 include "db_connect.php";
 include "../debug/debug.php";
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -21,11 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_start();
         $_SESSION['user_id'] = $user['abonne_id'];
         $_SESSION['user_type'] = $user['type_utilisateur'];
-        var_dump($_SESSION['user_id']);
-        var_dump($_SESSION['user_type']);
 
-        /*header('Location: dashboard.php');*/
+        if ($_SESSION['user_type'] === 'abonne') {
+            header('Location: ../view/livre.php');
+        } elseif ($_SESSION['user_type'] === 'gestionnaire') {
+            header('Location: ../view/abonne.php');
+        }
+        exit();
     } else {
-        echo "Invalid email or password";
+        header('Location: ../view/connexion.php?message=Invalid email or password');
+        exit();
     }
 }

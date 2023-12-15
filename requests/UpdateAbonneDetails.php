@@ -3,7 +3,7 @@ global $pdo;
 include "db_connect.php";
 include "../debug/debug.php";
 
-
+// La requête pour modifier les details de abonne
 function updateUserDetails($pdo)
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

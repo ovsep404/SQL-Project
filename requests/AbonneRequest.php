@@ -64,7 +64,7 @@ function searchAbonnes($searchNom, $searchPrenom, $searchVille, $SearchabonneOUe
     return $searchResults;
 }
 
-
+// La requête pour Fiche d'un abonné
 function getUserDetailsByID($pdo): void
 {
     if (isset($_GET['user_id'])) {
@@ -144,13 +144,3 @@ function getUserDetailsByID($pdo): void
 getUserDetailsByID($pdo);
 
 
-
-
-//$sql = "SELECT id, nom, prenom, ville, date_naissance, date_fin_abo,
-//                (SELECT JSON_ARRAYAGG(JSON_OBJECT('titre', livre.titre, 'date_emprunt', emprunt.date_emprunt))
-//                 FROM emprunt
-//                 INNER JOIN livre ON emprunt.id_livre = livre.id
-//                 WHERE emprunt.id_abonne = :user_id
-//                 ORDER BY emprunt.date_emprunt DESC) AS livres_empruntes
-//                FROM abonne
-//                WHERE id = :user_id";
