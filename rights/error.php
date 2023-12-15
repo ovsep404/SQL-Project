@@ -1,2 +1,2 @@
 <?php
-echo "error";
+echo "Access denied";

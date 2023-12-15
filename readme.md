@@ -11,7 +11,7 @@ This project is a library management system built with PHP, JavaScript, and SQL.
     - A table for storing user identifiers. It is necessary to be able to differentiate between "subscriber" and "manager" users.
     - A "subscriber" type user is associated with a subscriber.
 - **Rights Management**:
-    - "Subscriber" users will be able to view their file and modify their basic information: Date of birth, Address, Postal code, City.
+    - "Subscriber" users will be able to view their file and modify their basic information: Date of birth, Address, Postal code, City and the "Subscriber" users will not able to view the search abonne page.
 
 ## Setup and Installation
 
@@ -24,7 +24,7 @@ This project is a library management system built with PHP, JavaScript, and SQL.
 
 - `index.php`: The main entry point of the application.
 - `requests`: This directory contains all the PHP files for handling database requests.
-- `view`: This directory contains all the PHP files for the application's views and `UpdateAbonneDetails.js`that allow to update modify the users informations.
+- `view`: This directory contains all the PHP files for the application's views and `UpdateAbonneDetails.js & UpdateUserDetails.js`that allow to update modify the users informations.
 - `css`: This directory contains all the CSS files for styling the application.
 - `debug`: This directory contains the `debug.php` file for error handling and debugging.
 

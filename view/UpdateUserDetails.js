@@ -1,8 +1,12 @@
 const modalUser = document.getElementById("myModal");
 const closeModalUser = document.getElementById("closeModal");
 
-// Fetch data of abonne
 
+const currentPath = window.location.pathname;
+const isView = currentPath.includes('/view');
+const baseRelativePath = isView ? '../requests/' : './requests/';
+
+// Fetch data of abonne
 const voirFicheLinksUser = document.querySelectorAll(".voirFicheLinkUser");
 voirFicheLinksUser.forEach((link) => {
     link.addEventListener("click", function () {
@@ -10,15 +14,6 @@ voirFicheLinksUser.forEach((link) => {
         const userId = this.getAttribute("data-user-id");
 
         console.log(userId)
-
-        // Assuming you're working in a browser environment
-        const currentPath = window.location.pathname;
-
-        // Define isView based on the current path
-        const isView = currentPath.includes('/view');
-
-        // Use isView to determine the relative path
-        const baseRelativePath = isView ? '../requests/' : './requests/';
 
         fetch(`${baseRelativePath}AbonneRequest.php?user_id=${userId}`)
             .then((response) => response.json())
@@ -148,15 +143,6 @@ document.addEventListener("click", function (event) {
 
         };
         console.log(updatedUserData)
-
-        // Assuming you're working in a browser environment
-        const currentPath = window.location.pathname;
-
-        // Define isView based on the current path
-        const isView = currentPath.includes('/view');
-
-        // Use isView to determine the relative path
-        const baseRelativePath = isView ? '../requests/' : './requests/';
 
         fetch(`${baseRelativePath}UpdateAbonneDetails.php`, {
             method: 'POST',

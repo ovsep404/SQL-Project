@@ -4,8 +4,6 @@ include "../debug/debug.php";
 include "../requests/AbonneRequest.php";
 $pageTitle = 'Connexion';
 include "header.php";
-
-/*session_start();*/
 ?>
 
 <div class="connexion-container">

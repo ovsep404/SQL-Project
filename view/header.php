@@ -35,30 +35,19 @@
     <a href="../index.php">Accueil</a>
     <a href="livre.php">Ecran de recherche de livres</a>
     <?php
-    if (isset($_SESSION['user_type'])) {
-        if ($_SESSION['user_type'] === 'gestionnaire') {
-            echo '<a href="abonne.php">Ecran de recherche d\'abonné</a>';
-        } elseif ($_SESSION['user_type'] === 'abonne') {
-            echo '<a href="#" class="voirFicheLinkUser"  data-user-id="' . $_SESSION['user_id'] . '">Voir fiche</a>';
-        }
-    } else {
-        echo '';
-    } ?>
-    <a href="connexion.php">Connexion</a>
-
-
-    <?php
-    if (isset($_SESSION['user_type'])) {
-        if ($_SESSION['user_type'] === 'gestionnaire') {
-            echo '<a class="test" href="">  &#128100 À tant que gestionnaire </a>';
-        } elseif ($_SESSION['user_type'] === 'abonne') {
-            echo '<a class="test" href=""> &#128100 À tant qu\'abonné </a>';
-        }
+    $userType = $_SESSION['user_type'] ?? '';
+    $userId = $_SESSION['user_id'] ?? '';
+    if ($userType === 'gestionnaire') {
+        echo '<a href="abonne.php">Ecran de recherche d\'abonné</a>';
+        echo '<a class="test" href="">  &#128100 À tant que gestionnaire </a>';
+    } elseif ($userType === 'abonne') {
+        echo '<a href="#" class="voirFicheLinkUser"  data-user-id="' . $userId . '">Voir fiche</a>';
+        echo '<a class="test" href=""> &#128100 À tant qu\'abonné </a>';
     } else {
         echo '<a class="test" href=""> &#128100 À tant que visiteur</a>';
     }
     ?>
-
+    <a href="connexion.php">Connexion</a>
 </nav>
 
 <script src="UpdateUserDetails.js"></script>

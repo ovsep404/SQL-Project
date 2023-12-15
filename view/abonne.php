@@ -5,7 +5,6 @@ include "../requests/AbonneRequest.php";
 $pageTitle = 'Gestion de bibliothèque abonné';
 include "header.php";
 include "../rights/rights.php";
-/*session_start();*/
 ?>
 
 <form action="#" method="post">
