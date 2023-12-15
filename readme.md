@@ -16,7 +16,7 @@ This project is a library management system built with PHP, JavaScript, and SQL.
 ## Setup and Installation
 
 1. Clone the repository to your local machine.
-2. Set up a MySQL database and execute the `sudo mysql < init.sql` in the `requests` directory to add the table `utilisateurs` to your existent database.
+2. Set up a MySQL database and execute the `sudo mysql < init.sql` in the `requests` directory to add the table `utilisateurs` to your existent database or import the `SQLschool.sql` file to get all tables with datas.
 3. Update the `db_connect.php` file in the `requests` directory with your database credentials.
 4. Run the project on a PHP server.
 
