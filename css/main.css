@@ -354,3 +354,49 @@ main p {
     background-color: green;
     color: white;
 }
+
+
+/* Existing CSS code */
+
+/* ... */
+
+/* Responsive styles */
+
+@media screen and (max-width: 600px) {
+    /* Styles for screens smaller than 600px */
+
+    .dashboard {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .form-columns {
+        flex-direction: column;
+    }
+
+    .form-column {
+        width: 100%;
+    }
+
+    /* Add more styles as needed */
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+    /* Styles for screens between 601px and 900px */
+
+    .dashboard {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .form-columns {
+        flex-direction: row;
+    }
+
+    .form-column {
+        width: 45%; /* Adjust as needed */
+    }
+
+    /* Add more styles as needed */
+}
+

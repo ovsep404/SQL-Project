@@ -1,0 +1,1 @@
+{"version":1,"defects":{"UpdateAbonneDetailsTest::testUpdateUserDetails":5,"ConnexionHandlerTest::testValidLogin":7},"times":{"UpdateAbonneDetailsTest::testUpdateUserDetails":0.006,"UnitTest::testUnit":0,"ConnexionHandlerTest::testValidLogin":0.093}}

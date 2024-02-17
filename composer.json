@@ -1,0 +1,8 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "phpspec/prophecy-phpunit": "^2.1",
+      "ext-pdo": "*",
+        "phpunit/php-code-coverage": "^10.1"
+    }
+}

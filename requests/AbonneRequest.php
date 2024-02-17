@@ -65,81 +65,90 @@ function searchAbonnes($searchNom, $searchPrenom, $searchVille, $SearchabonneOUe
 }
 
 // La requête pour Fiche d'un abonné
+$procedure = "
+DELIMITER 
+
+CREATE PROCEDURE GetUserDetailsByID(IN userId INT)
+BEGIN
+    SELECT
+        abonne.id,
+        abonne.prenom,
+        abonne.nom,
+        abonne.date_naissance,
+        abonne.adresse,
+        abonne.code_postal,
+        abonne.ville,
+        abonne.date_inscription,
+        abonne.date_fin_abo,
+        (
+        SELECT JSON_ARRAYAGG(JSON_OBJECT('titre', livre.titre, 'date_emprunt', emprunt.date_emprunt))
+            FROM emprunt
+            INNER JOIN livre ON emprunt.id_livre = livre.id
+            WHERE emprunt.id_abonne = abonne.id
+            ORDER BY emprunt.date_emprunt DESC
+        ) AS livres_empruntes,
+        (
+        SELECT JSON_ARRAYAGG(JSON_OBJECT('titre', sb.titre, 'categorie', sb.categorie))
+            FROM (
+                SELECT l.titre, l.categorie
+                FROM livre l
+                WHERE l.categorie = (
+SELECT MAX(cat.categorie)
+                    FROM (
+                        SELECT l.categorie, COUNT(e.id_livre) AS emprunts
+                        FROM emprunt e
+                        INNER JOIN livre l ON e.id_livre = l.id
+                        WHERE e.date_emprunt >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+                        AND e.id_abonne = abonne.id
+                        GROUP BY l.categorie
+                        ORDER BY emprunts DESC
+                        LIMIT 5
+                    ) AS cat
+                )
+                AND l.id NOT IN (
+    SELECT id_livre
+                    FROM emprunt
+                    WHERE id_abonne = abonne.id
+                )
+                LIMIT 5
+            ) AS sb
+        ) AS suggested_books
+    FROM abonne
+    WHERE abonne.id = userId;
+END //
+
+DELIMITER ;
+";
+
+
 function getUserDetailsByID($pdo): void
 {
     if (isset($_GET['user_id'])) {
         $user_id = $_GET['user_id'];
 
-
-        $sql = "SELECT 
-            abonne.id,
-            abonne.prenom, 
-            abonne.nom, 
-            abonne.date_naissance, 
-            abonne.adresse, 
-            abonne.code_postal, 
-            abonne.ville, 
-            abonne.date_inscription, 
-            abonne.date_fin_abo, 
-            (
-                SELECT JSON_ARRAYAGG(JSON_OBJECT('titre', livre.titre, 'date_emprunt', emprunt.date_emprunt))
-                FROM emprunt
-                INNER JOIN livre ON emprunt.id_livre = livre.id
-                WHERE emprunt.id_abonne = abonne.id
-                ORDER BY emprunt.date_emprunt DESC
-            ) AS livres_empruntes,
-            (
-                SELECT JSON_ARRAYAGG(JSON_OBJECT('titre', sb.titre, 'categorie', sb.categorie))
-                FROM (
-                    SELECT l.titre, l.categorie
-                    FROM livre l
-                    WHERE l.categorie = (
-                        SELECT MAX(cat.categorie)
-                        FROM (
-                            SELECT l.categorie, COUNT(e.id_livre) AS emprunts
-                            FROM emprunt e
-                            INNER JOIN livre l ON e.id_livre = l.id
-                            WHERE e.date_emprunt >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-                            AND e.id_abonne = abonne.id
-                            GROUP BY l.categorie
-                            ORDER BY emprunts DESC
-                            LIMIT 5
-                        ) AS cat
-                    )
-                    AND l.id NOT IN (
-                        SELECT id_livre
-                        FROM emprunt
-                        WHERE id_abonne = abonne.id
-                    )
-                    LIMIT 5
-                ) AS sb
-            ) AS suggested_books
-        FROM abonne
-        WHERE abonne.id = :user_id;";
-
-
-        $stmt = $pdo->prepare($sql);
+        // Prepare and bind parameters
+        $stmt = $pdo->prepare("CALL GetUserDetailsByID(:user_id)");
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+        // Execute the stored procedure
         $stmt->execute();
+
+        // Fetch the result set from the stored procedure
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-
+            // Output the result as JSON
             header('Content-Type: application/json');
             echo json_encode($user);
         } else {
-
+            // User not found, return 404
             http_response_code(404);
-
         }
     } else {
-
+        // Invalid request, return 400
         http_response_code(400);
-
-
     }
 }
-
 
 getUserDetailsByID($pdo);
 
