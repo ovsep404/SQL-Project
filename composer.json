@@ -4,5 +4,8 @@
         "phpspec/prophecy-phpunit": "^2.1",
       "ext-pdo": "*",
         "phpunit/php-code-coverage": "^10.1"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
     }
 }
